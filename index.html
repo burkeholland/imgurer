@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+		<title>Imgurer</title>
+		<link rel="stylesheet" href="assets/css/kendo.mobile.all.min.css">
+		<link rel="stylesheet" href="assets/css/master.css">
+
+		<script type="text/javascript" src="assets/js/jquery.min.js"></script>
+		<script src="phonegap.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="assets/js/app.js"></script>
+		<script type="text/javascript" src="assets/js/kendo.mobile.min.js"></script>
+
+	</head>
+	<body>
+
+		<script type="text/x-kendo-tmpl" id="urlTemplate">
+			<a href="#= url #" target="_blank">
+				<p class="imgur-url">#= url #</p>
+			</a>
+		</script>
+ 		
+		<div data-role="view" data-show="IMGURER.show" data-stretch="true" data-layout="main-layout" id="capture" data-title="Take Picture">
+			<div class="button-wrapper">
+				<a data-role="button" id="take-picture">
+					<img src="assets/images/camera.png" />
+				</a>
+			</div>
+			<div class="url-wrapper"></div>
+			<div data-role="modalview" id="imgur-key-request">
+				<h2>Welcome!</h2> 
+				<p>Before you can use Imgurer, you need to input
+				your Imgur API key.  <a href="https://imgur.com/register/api_anon">Don't have one?</a></p>
+				<ul data-role="listview" data-style="inset">
+					<li>
+						<input id="imgur-key" type="text" placeholder="key" />
+						Imgur API Key
+					</li>
+				</ul>
+				<p>
+					<a id="save-imgur-key" data-role="button">Save</a>
+				</p>
+			</div>
+		</div>
+
+		<div data-role="view" data-layout="settings-layout" id="settings" data-title="Settings">
+			<ul data-role="listview" data-style="inset">
+				<li>
+					<input id="settings-imgur-key" type="text" placeholder="Key..." />
+					Imgur API Key
+				</li>
+			</ul>
+		</div>
+
+		<div data-role="view" data-layout="main-layout" id="uploads" data-title="Uploaded">
+			<ul id="uploaded-images"></ul>
+		</div>
+
+		<div data-role="layout" data-id="main-layout">
+			<div data-role="header">
+				<div data-role="navbar">
+					<span data-role="view-title"></span>
+					<a data-align="right" data-transition="overlay:up" data-icon="settings" data-role="button" href="#settings"></a>
+				</div>
+			</div>
+			<div data-role="footer">
+				<div data-role="tabstrip">
+					<a data-icon="camera" href="#capture">Camera</a>
+					<a data-icon="history" href="#uploads">Uploads</a>
+				</div>
+			</div>
+		</div>
+
+		<div data-role="layout" data-id="settings-layout">
+			<div data-role="header">
+				<div data-role="navbar">
+					<span data-role="view-title"></span>
+					<a href="#capture" data-transition="overlay:up reverse" data-align="right" data-role="button">Close</a>
+				</div>
+			</div>
+			<div data-role="footer"></div>
+		</div>
+
+	</body>
+</html>

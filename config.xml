@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns		= "http://www.w3.org/ns/widgets"
+	xmlns:gap	= "http://phonegap.com/ns/1.0"
+	id		= "com.burke.imgurer"
+	version 	= "1.0.0">
+
+	<name>Imgurer</name>
+
+	<description>
+		An application that allows you to upload photos directly to Imgur.
+	</description>
+
+	<author href="http://a.shinynew.me"
+		email="burkeholland@gmail.com">
+		Burke Holland
+	</author>
+
+	<icon src="icon.png" gap:role="default" />
+
+	<feature name="http://api.phonegap.com/1.0/network"/>
+	<feature name="http://api.phonegap.com/1.0/camera"/>
+	<feature name="http://api.phonegap.com/1.0/notification"/>
+
+	<preference name="orientation" value="portrait" />
+</widget>
