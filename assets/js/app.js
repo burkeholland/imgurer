@@ -2,9 +2,6 @@ var IMGURER = IMGURER || {};
 
 IMGURER.run = (function() {
 
-	// create the application
-    IMGURER.app = new kendo.mobile.Application(document.body);
-
     // check to make sure we have an IMGURER key
     IMGURER.checkKey();
 
@@ -15,7 +12,11 @@ IMGURER.run = (function() {
 
     // initialize the uploads
     IMGURER.uploads.init();
-    
+
+    // create the application
+    IMGURER.app = new kendo.mobile.Application(document.body);
+
+               
 });
 
 IMGURER.show = (function() {
@@ -38,8 +39,6 @@ IMGURER.captureImage = function() {
 
 		// camera success
 		var hollaback = function(dataURL) {
-
-			console.log("Got the dataURL!")
 
 			// upload the image to imgur
 			IMGURER.upload(dataURL);
@@ -79,11 +78,11 @@ IMGURER.upload = (function(base64) {
 			},
 			dataType: "json",
 			success: function(data) {
-				IMGURER.images.push(data.upload.links.imgur_page);
-				IMGURER.app.hideLoading();
-				$(".url-wrapper").html(IMGURER.template({ url: data.upload.links.imgur_page }));
+               IMGURER.app.hideLoading();
+               $(".url-wrapper").html(IMGURER.template({ url: data.upload.links.imgur_page }));
+               IMGURER.uploads.save(data.upload.links.imgur_page);
 			},
-			timeout: 10000,
+			timeout: 20000,
 			error: function(jqXHR, textStatus, errorThrown) {
 				IMGURER.app.hideLoading();
 				navigator.notification.alert(textStatus, null, "Upload Failed");
@@ -129,24 +128,35 @@ IMGURER.checkKey = (function() {
 
 IMGURER.uploads = function() {
 
-	var pub = {};
-
+	var pub = {},
+        uploads = [];
+    
 	pub.init = function() {
 
 		// read in the stored images from local storage
-		IMGURER.uploads = window.localStorage.getItem("images");
-
-		// set it to a new array if there are currently no
-		// stored images
-		IMGURER.uploads = IMGURER.uploads || [];
-
-		// create the listview while binding it to the uploads
-		// array as the data source.
-		$("#uploaded-images").kendoMobileListView({
-			dataSource: IMGURER.uploads
-		});
+		uploads = window.localStorage.getItem("uploads") || [];
+        
+		IMGURER.history = new kendo.data.DataSource({
+            data: uploads                                         
+        });
+        
+        console.log(uploads);
 
 	}
+    
+    pub.save = function(img) {
+        
+        console.log("saving the image!");
+        
+        // push the new image onto the array
+        uploads.push(img);
+        
+        // save the images array to local storage
+        window.localStorage.setItem("uploads", uploads);
+    
+        // refresh the datasource
+        IMGURER.history.read();
+    }
 
 	return pub;
 
